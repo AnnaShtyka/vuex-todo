@@ -1,17 +1,17 @@
 import axios from "axios";
 
 const state = {
-  todos: []
+  todos: [],
 };
 
 const getters = {
-  allTodos: state => state.todos
+  allTodos: (state) => state.todos,
 };
 
 const actions = {
   async fetchTodos({ commit }) {
     const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/todos"
+      "https://jsonplaceholder.typicode.com/todos?_limit=15"
     );
     commit("setTodos", response.data);
   },
@@ -22,17 +22,25 @@ const actions = {
       { title, completed: false }
     );
     commit("newTodo", response.data);
-  }
+  },
+
+  async deleteTodo({ commit }, id) {
+    axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+
+    commit("removeTodo", id);
+  },
 };
 
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
-  newTodo: (state, todo) => state.todos.unshift(todo)
+  newTodo: (state, todo) => state.todos.unshift(todo),
+  removeTodo: (state, id) =>
+    (state.todos = state.todos.filter((todo) => todo.id !== id)),
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

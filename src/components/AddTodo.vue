@@ -16,7 +16,7 @@ export default {
   name: "AddTodo",
   data() {
     return {
-      title: ""
+      title: "",
     };
   },
   methods: {
@@ -24,8 +24,8 @@ export default {
     onSubmit(e) {
       e.preventDefault();
       this.addTodo(this.title);
-    }
-  }
+    },
+  },
 };
 </script>
 
